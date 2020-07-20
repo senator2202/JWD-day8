@@ -20,7 +20,7 @@ public class BookListDaoImpl implements BookListDao {
     private static final String USER_NAME = "root";
     private static final String USER_PASSWORD = "admin";
     private static final String HOST =
-            "jdbc:mysql://localhost:3306/bookwarehouse" +
+            "jdbc:mysql://localhost:3306/book_warehouse" +
                     "?verifyServerCertificate=false" +
                     "&useSSL=false" +
                     "&requireSSL=false" +
