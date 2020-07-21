@@ -3,7 +3,6 @@ package test.kharitonov.day6.controller.command.impl;
 import by.kharitonov.day6.controller.command.impl.FindCommand;
 import by.kharitonov.day6.controller.response.CommandResult;
 import by.kharitonov.day6.model.entity.Book;
-import by.kharitonov.day6.model.entity.BookWarehouse;
 import by.kharitonov.day6.service.exception.ServiceException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -18,17 +17,6 @@ import static org.testng.Assert.assertEquals;
 
 public class FindCommandTest {
     private final FindCommand command = new FindCommand();
-    private final BookWarehouse warehouse = BookWarehouse.getInstance();
-
-    @BeforeClass
-    @BeforeMethod
-    private void setUp() {
-        warehouse.removeAll();
-        warehouse.add(StaticDataProvider.FIRST_BOOK);
-        warehouse.add(StaticDataProvider.SECOND_BOOK);
-        warehouse.add(StaticDataProvider.THIRD_BOOK);
-        warehouse.add(StaticDataProvider.FOURS_BOOK);
-    }
 
     @Parameters({"expectedList", "parameters"})
     @Test(dataProvider = "foundBooks",

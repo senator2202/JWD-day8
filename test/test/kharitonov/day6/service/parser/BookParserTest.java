@@ -30,7 +30,7 @@ public class BookParserTest {
                 {"authors", BookTag.AUTHORS},
                 {"year", BookTag.YEAR},
                 {"pages", BookTag.PAGES},
-                {"publishing_house", BookTag.PUBLISHING_HOUSE}
+                {"publishing_house", BookTag.PUBLISHER}
         };
     }
 

@@ -4,7 +4,6 @@ import by.kharitonov.day6.controller.BookWarehouseController;
 import by.kharitonov.day6.controller.exception.CommandException;
 import by.kharitonov.day6.controller.response.CommandResult;
 import by.kharitonov.day6.model.entity.Book;
-import by.kharitonov.day6.model.entity.BookWarehouse;
 import by.kharitonov.day6.service.exception.ServiceException;
 import by.kharitonov.day6.view.ViewEmulator;
 import org.testng.annotations.BeforeClass;
@@ -22,27 +21,6 @@ import static org.testng.Assert.assertTrue;
 public class BookWarehouseControllerTest {
     private final BookWarehouseController controller =
             BookWarehouseController.getInstance();
-    private final BookWarehouse warehouse = BookWarehouse.getInstance();
-
-    @BeforeClass
-    @BeforeMethod
-    private void setUpMethod() {
-        warehouse.removeAll();
-        warehouse.add(StaticDataProvider.FIRST_BOOK);
-        warehouse.add(StaticDataProvider.SECOND_BOOK);
-        warehouse.add(StaticDataProvider.THIRD_BOOK);
-        warehouse.add(StaticDataProvider.FOURS_BOOK);
-    }
-
-    @Test
-    public void testProcessRequestAddModelChange() {
-        boolean flag;
-        Book book = StaticDataProvider.ADDING_BOOK;
-        String[] bookTags = StaticDataProvider.parseTags(book);
-        controller.processRequest("add", bookTags);
-        flag = warehouse.indexOf(StaticDataProvider.ADDING_BOOK) == 4;
-        assertTrue(flag);
-    }
 
     @Test
     public void testProcessRequestAddViewChange() {
@@ -80,32 +58,6 @@ public class BookWarehouseControllerTest {
         expectedResult = new CommandResult(addList, exception);
         controller.processRequest("add", bookTags);
         assertEquals(ViewEmulator.getCommandResult(), expectedResult);
-    }
-
-    @Test
-    public void testProcessRequestAddCapacityException() {
-        List<Book> addList = new ArrayList<>();
-        Book book = StaticDataProvider.ADDING_BOOK;
-        String[] bookTags = StaticDataProvider.parseTags(book);
-        CommandResult expectedResult;
-        ServiceException exception =
-                new ServiceException("Warehouse is full!");
-        expectedResult = new CommandResult(addList, exception);
-        for (int i = 0; i < 97; i++) {
-            warehouse.add(StaticDataProvider.FIRST_BOOK);
-        }
-        controller.processRequest("add", bookTags);
-        assertEquals(ViewEmulator.getCommandResult(), expectedResult);
-    }
-
-    @Test
-    public void testProcessRequestRemoveModelChange() {
-        int index;
-        Book book = StaticDataProvider.FIRST_BOOK;
-        String[] bookTags = StaticDataProvider.parseTags(book);
-        controller.processRequest("remove", bookTags);
-        index = warehouse.indexOf(StaticDataProvider.FIRST_BOOK);
-        assertEquals(-1, index);
     }
 
     @Test

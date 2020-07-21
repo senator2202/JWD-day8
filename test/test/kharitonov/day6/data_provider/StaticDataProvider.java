@@ -64,7 +64,7 @@ public class StaticDataProvider {
                 book.getAuthors(),
                 String.valueOf(book.getYear()),
                 String.valueOf(book.getPages()),
-                book.getPublishingHouse()
+                book.getPublisher()
         };
     }
 

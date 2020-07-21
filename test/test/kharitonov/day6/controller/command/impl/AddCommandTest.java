@@ -3,7 +3,6 @@ package test.kharitonov.day6.controller.command.impl;
 import by.kharitonov.day6.controller.command.impl.AddCommand;
 import by.kharitonov.day6.controller.response.CommandResult;
 import by.kharitonov.day6.model.entity.Book;
-import by.kharitonov.day6.model.entity.BookWarehouse;
 import by.kharitonov.day6.service.exception.ServiceException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -18,16 +17,6 @@ import static org.testng.Assert.assertEquals;
 
 public class AddCommandTest {
     private final AddCommand command = new AddCommand();
-    private final BookWarehouse warehouse = BookWarehouse.getInstance();
-
-    @BeforeClass
-    @BeforeMethod
-    private void setUp() {
-        warehouse.removeAll();
-        warehouse.add(StaticDataProvider.FIRST_BOOK);
-        warehouse.add(StaticDataProvider.SECOND_BOOK);
-        warehouse.add(StaticDataProvider.THIRD_BOOK);
-    }
 
     @Test
     public void testExecute() {
@@ -50,23 +39,6 @@ public class AddCommandTest {
         CommandResult expectedResult =
                 new CommandResult(expectedList, exception);
         CommandResult actualResult = command.execute(content);
-        assertEquals(actualResult, expectedResult);
-    }
-
-    @Test
-    public void testExecuteAddCapacityException() {
-        List<Book> expectedList = new ArrayList<>();
-        Book book = StaticDataProvider.ADDING_BOOK;
-        String[] bookTags = StaticDataProvider.parseTags(book);
-        ServiceException exception =
-                new ServiceException("Warehouse is full!");
-        CommandResult expectedResult =
-                new CommandResult(expectedList, exception);
-        CommandResult actualResult;
-        for (int i = 0; i < 97; i++) {
-            warehouse.add(StaticDataProvider.FIRST_BOOK);
-        }
-        actualResult = command.execute(bookTags);
         assertEquals(actualResult, expectedResult);
     }
 

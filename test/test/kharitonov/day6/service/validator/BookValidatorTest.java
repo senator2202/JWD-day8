@@ -27,7 +27,7 @@ public class BookValidatorTest {
                 {BookTag.AUTHORS, "Bunin, Esenin", true},
                 {BookTag.YEAR, "1991", true},
                 {BookTag.PAGES, "244", true},
-                {BookTag.PUBLISHING_HOUSE, "Delibri", true}
+                {BookTag.PUBLISHER, "Delibri", true}
         };
     }
 

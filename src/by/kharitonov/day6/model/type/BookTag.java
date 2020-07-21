@@ -1,64 +1,69 @@
 package by.kharitonov.day6.model.type;
 
-import by.kharitonov.day6.model.dao.impl.BookListDaoImpl;
-import by.kharitonov.day6.model.entity.Book;
-
-import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
 public enum BookTag {
     ID {
         {
-            BookListDaoImpl dao = new BookListDaoImpl();
-            this.findFunction = dao::findBookById;
-            this.sortSupplier = dao::sortBooksById;
+            this.findQuery = "SELECT id_book, title, authors, year, pages, " +
+                    "publisher FROM books WHERE id_book=() VALUES(?)";
+            this.orderQuery = "SELECT id_book, title, authors, year, " +
+                    "pages, publisher FROM books";
         }
     },
     TITLE {
         {
-            BookListDaoImpl dao = new BookListDaoImpl();
-            this.findFunction = dao::findBooksByTitle;
-            this.sortSupplier = dao::sortBooksByTitle;
+            this.findQuery = "SELECT id_book, title, authors, year, pages, " +
+                    "publisher FROM books WHERE title=() VALUES(?)";
+            this.orderQuery = "SELECT id_book, title, authors, year, " +
+                    "pages, publisher FROM books ORDER BY title";
         }
     },
     AUTHORS {
         {
-            BookListDaoImpl dao = new BookListDaoImpl();
-            this.findFunction = dao::findBooksByAuthor;
-            this.sortSupplier = dao::sortBooksByAuthors;
+            this.findQuery = "SELECT id_book, title, authors, year, pages, " +
+                    "publisher FROM books WHERE authors=() VALUES(?)";
+            this.orderQuery = "SELECT id_book, title, authors, year, " +
+                    "pages, publisher FROM books ORDER BY authors";
         }
     },
     YEAR {
         {
-            BookListDaoImpl dao = new BookListDaoImpl();
-            this.findFunction = dao::findBooksByYear;
-            this.sortSupplier = dao::sortBooksByYear;
+            this.findQuery = "SELECT id_book, title, authors, year, pages, " +
+                    "publisher FROM books WHERE year=() VALUES(?)";
+            this.orderQuery = "SELECT id_book, title, authors, year, " +
+                    "pages, publisher FROM books ORDER BY year";
         }
     },
     PAGES {
         {
-            BookListDaoImpl dao = new BookListDaoImpl();
-            this.findFunction = dao::findBooksByPages;
-            this.sortSupplier = dao::sortBooksByPages;
+            this.findQuery = "SELECT id_book, title, authors, year, pages, " +
+                    "publisher FROM books WHERE pages=() VALUES(?)";
+            this.orderQuery = "SELECT id_book, title, authors, year, " +
+                    "pages, publisher FROM books ORDER BY pages";
         }
     },
-    PUBLISHING_HOUSE {
+    PUBLISHER {
         {
-            BookListDaoImpl dao = new BookListDaoImpl();
-            this.findFunction = dao::findBooksByPublishingHouse;
-            this.sortSupplier = dao::sortBooksByPublishingHouse;
+            this.findQuery = "SELECT id_book, title, authors, year, pages, " +
+                    "publisher FROM books WHERE publisher=() VALUES(?)";
+            this.orderQuery = "SELECT id_book, title, authors, year, " +
+                    "pages, publisher FROM books ORDER BY publisher";
+        }
+    },
+    NONE {
+        {
+            this.findQuery = "";
+            this.orderQuery = "";
         }
     };
 
-    Function<String, List<Book>> findFunction;
-    Supplier<List<Book>> sortSupplier;
+    String findQuery;
+    String orderQuery;
 
-    public Function<String, List<Book>> getFindFunction() {
-        return findFunction;
+    public String getFindQuery() {
+        return findQuery;
     }
 
-    public Supplier<List<Book>> getSortSupplier() {
-        return sortSupplier;
+    public String getOrderQuery() {
+        return orderQuery;
     }
 }

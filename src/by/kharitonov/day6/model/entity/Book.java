@@ -11,7 +11,7 @@ public class Book {
     private String[] authors;
     private int year;
     private int pages;
-    private String publishingHouse;
+    private String publisher;
 
     private Book() {
     }
@@ -41,8 +41,8 @@ public class Book {
         return pages;
     }
 
-    public String getPublishingHouse() {
-        return publishingHouse;
+    public String getPublisher() {
+        return publisher;
     }
 
     private String getMainAuthor() {
@@ -64,7 +64,7 @@ public class Book {
                 !id.equals(book.id) ||
                 !title.equals(book.title) ||
                 !Arrays.equals(authors, book.authors) ||
-                !publishingHouse.equals(book.publishingHouse)) {
+                !publisher.equals(book.publisher)) {
             result = false;
         }
         return result;
@@ -76,7 +76,7 @@ public class Book {
         result = 31 * result + title.hashCode();
         result = 31 * result + year;
         result = 31 * result + pages;
-        result = 31 * result + publishingHouse.hashCode();
+        result = 31 * result + publisher.hashCode();
         return result;
     }
 
@@ -88,7 +88,7 @@ public class Book {
         sb.append(", authors:").append(Arrays.toString(authors));
         sb.append(", year:").append(year);
         sb.append(", pages:").append(pages);
-        sb.append(", publishingHouse:\"").append(publishingHouse).append('\"');
+        sb.append(", publishingHouse:\"").append(publisher).append('\"');
         sb.append('}');
         return sb.toString();
     }
@@ -120,7 +120,7 @@ public class Book {
     public static class BookPublishingHouseComparator implements Comparator<Book> {
         @Override
         public int compare(Book o1, Book o2) {
-            return o1.getPublishingHouse().compareTo(o2.getPublishingHouse());
+            return o1.getPublisher().compareTo(o2.getPublisher());
         }
     }
 
@@ -143,7 +143,7 @@ public class Book {
             Book.this.id = "";
             Book.this.title = "";
             Book.this.authors = new String[0];
-            Book.this.publishingHouse = "";
+            Book.this.publisher = "";
         }
 
         public Builder setId(String id) {
@@ -172,7 +172,7 @@ public class Book {
         }
 
         public Builder setPublishingHouse(String publishingHouse) {
-            Book.this.publishingHouse = publishingHouse;
+            Book.this.publisher = publishingHouse;
             return this;
         }
 
