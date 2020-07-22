@@ -4,6 +4,8 @@ import by.kharitonov.day6.model.dao.BookListDao;
 import by.kharitonov.day6.model.dao.impl.BookListDaoImpl;
 import by.kharitonov.day6.model.entity.Book;
 import by.kharitonov.day6.model.entity.FindRequest;
+import by.kharitonov.day6.model.entity.SelectRequest;
+import by.kharitonov.day6.model.entity.SortRequest;
 import by.kharitonov.day6.model.exception.DaoException;
 import by.kharitonov.day6.model.type.BookTag;
 import by.kharitonov.day6.service.exception.ServiceException;
@@ -59,7 +61,7 @@ public class BookService {
                 parser.parseBookTag(parameters[BookValidator.BOOK_TAG_INDEX]);
         String tagValue = parameters[BookValidator.TAG_VALUE_INDEX];
         FindRequest findRequest =
-                new FindRequest(bookTag, tagValue, BookTag.NONE);
+                new FindRequest(bookTag, tagValue);
         return executeFind(findRequest);
     }
 
@@ -71,15 +73,15 @@ public class BookService {
         BookParser parser = new BookParser();
         BookTag bookTag =
                 parser.parseBookTag(parameters[BookValidator.BOOK_TAG_INDEX]);
-        FindRequest findRequest = new FindRequest(BookTag.NONE, null, bookTag);
-        return executeFind(findRequest);
+        SortRequest sortRequest = new SortRequest(bookTag);
+        return executeFind(sortRequest);
     }
 
-    private List<Book> executeFind(FindRequest findRequest)
+    private List<Book> executeFind(SelectRequest selectRequest)
             throws ServiceException {
         BookListDao dao = new BookListDaoImpl();
         try {
-            return dao.findBooks(findRequest);
+            return dao.findBooks(selectRequest);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

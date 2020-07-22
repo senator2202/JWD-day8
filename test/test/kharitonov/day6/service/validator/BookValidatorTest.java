@@ -16,13 +16,13 @@ public class BookValidatorTest {
     public Object[][] dataValidateTag() {
         return new Object[][]{
                 {null, "value", false},
-                {BookTag.ID, null, false},
+                {BookTag.ID_BOOK, null, false},
                 {BookTag.TITLE, "", false},
                 {BookTag.YEAR, "2000.23", false},
                 {BookTag.YEAR, "2036", false},
                 {BookTag.PAGES, "ulala", false},
                 {BookTag.PAGES, "-100", false},
-                {BookTag.ID, "12345", true},
+                {BookTag.ID_BOOK, "12345", true},
                 {BookTag.TITLE, "Harry Potter", true},
                 {BookTag.AUTHORS, "Bunin, Esenin", true},
                 {BookTag.YEAR, "1991", true},

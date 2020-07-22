@@ -2,18 +2,17 @@ package by.kharitonov.day6.model.entity;
 
 import by.kharitonov.day6.model.type.BookTag;
 
-public class FindRequest {
+public class FindRequest extends SelectRequest {
     private BookTag findTag;
     private String tagValue;
-    private BookTag sortTag;
 
-    public FindRequest(BookTag findTag, String tagValue, BookTag sortTag) {
-        this.findTag = findTag != null ? findTag : BookTag.NONE;
-        this.tagValue = tagValue != null ? tagValue : new String();
-        this.sortTag = sortTag != null ? sortTag : BookTag.NONE;
+    public FindRequest(BookTag findTag, String tagValue) {
+        this.findTag = findTag;
+        this.tagValue = tagValue;
     }
 
-    public BookTag getFindTag() {
+    @Override
+    public BookTag getBookTag() {
         return findTag;
     }
 
@@ -21,7 +20,12 @@ public class FindRequest {
         return tagValue;
     }
 
-    public BookTag getSortTag() {
-        return sortTag;
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("FindRequest{");
+        sb.append("findTag=").append(findTag);
+        sb.append(", tagValue='").append(tagValue).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

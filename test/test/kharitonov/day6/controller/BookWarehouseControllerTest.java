@@ -6,8 +6,6 @@ import by.kharitonov.day6.controller.response.CommandResult;
 import by.kharitonov.day6.model.entity.Book;
 import by.kharitonov.day6.service.exception.ServiceException;
 import by.kharitonov.day6.view.ViewEmulator;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import test.kharitonov.day6.data_provider.StaticDataProvider;
@@ -16,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class BookWarehouseControllerTest {
     private final BookWarehouseController controller =

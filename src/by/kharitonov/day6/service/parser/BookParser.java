@@ -10,7 +10,7 @@ public class BookParser {
     public Book parseBook(String[] tagValues) {
         Book book;
         book = Book.newBuilder()
-                .setId(tagValues[BookValidator.ID_INDEX])
+                .setId(Integer.parseInt(tagValues[BookValidator.ID_INDEX]))
                 .setTitle(tagValues[BookValidator.TITLE_INDEX])
                 .setAuthors(tagValues[BookValidator.AUTHORS_INDEX]
                         .split(DELIMITER))

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class Book {
-    private String id;
+    private int id;
     private String title;
     private String[] authors;
     private int year;
@@ -20,7 +20,7 @@ public class Book {
         return new Book().new Builder();
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -59,9 +59,9 @@ public class Book {
         }
         Book book = (Book) o;
         boolean result = true;
-        if (year != book.year ||
+        if (id != book.id ||
+                year != book.year ||
                 pages != book.pages ||
-                !id.equals(book.id) ||
                 !title.equals(book.title) ||
                 !Arrays.equals(authors, book.authors) ||
                 !publisher.equals(book.publisher)) {
@@ -72,7 +72,7 @@ public class Book {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = id;
         result = 31 * result + title.hashCode();
         result = 31 * result + year;
         result = 31 * result + pages;
@@ -106,7 +106,7 @@ public class Book {
     public static class BookIdComparator implements Comparator<Book> {
         @Override
         public int compare(Book o1, Book o2) {
-            return o1.getId().compareTo(o2.getId());
+            return o1.getId() - o2.getId();
         }
     }
 
@@ -140,13 +140,12 @@ public class Book {
 
     public class Builder {
         private Builder() {
-            Book.this.id = "";
             Book.this.title = "";
             Book.this.authors = new String[0];
             Book.this.publisher = "";
         }
 
-        public Builder setId(String id) {
+        public Builder setId(int id) {
             Book.this.id = id;
             return this;
         }
@@ -177,9 +176,6 @@ public class Book {
         }
 
         public Book build() {
-            if (Book.this.id.isEmpty()) {
-                Book.this.id = IdGenerator.generateId();
-            }
             return Book.this;
         }
     }

@@ -15,7 +15,7 @@ public class BookCreator {
     private static final String PUBLISHER_TAG = "publisher";
 
     public Book create(ResultSet resultSet) throws SQLException {
-        String idBook = resultSet.getString(ID_TAG);
+        int idBook = resultSet.getInt(ID_TAG);
         String title = resultSet.getString(TITLE_TAG);
         String[] authors = resultSet.getString(AUTHORS_TAG).split(DELIMITER);
         int year = resultSet.getInt(YEAR_TAG);

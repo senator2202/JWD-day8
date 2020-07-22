@@ -16,7 +16,7 @@ public class StaticDataProvider {
 
     static {
         FIRST_BOOK = Book.newBuilder()
-                .setId("2")
+                .setId(2)
                 .setTitle("Harry Potter and the deathly hallows")
                 .setAuthors("Joan Roaling")
                 .setYear(2007)
@@ -24,7 +24,7 @@ public class StaticDataProvider {
                 .setPublishingHouse("Delibri")
                 .build();
         SECOND_BOOK = Book.newBuilder()
-                .setId("1")
+                .setId(1)
                 .setTitle("Lord of the rings")
                 .setAuthors("John Tolkien")
                 .setYear(2002)
@@ -32,7 +32,7 @@ public class StaticDataProvider {
                 .setPublishingHouse("Vysnova")
                 .build();
         THIRD_BOOK = Book.newBuilder()
-                .setId("3")
+                .setId(3)
                 .setTitle("The little golden calf")
                 .setAuthors("Ilya Ilf", "Eugene Petrov")
                 .setYear(2015)
@@ -40,7 +40,7 @@ public class StaticDataProvider {
                 .setPublishingHouse("Ishi Press")
                 .build();
         FOURS_BOOK = Book.newBuilder()
-                .setId("4")
+                .setId(4)
                 .setTitle("Harry Potter and the goblet of fire")
                 .setAuthors("Joan Roaling")
                 .setYear(2005)
@@ -48,7 +48,6 @@ public class StaticDataProvider {
                 .setPublishingHouse("Minsk")
                 .build();
         ADDING_BOOK = Book.newBuilder()
-                .setId("322")
                 .setTitle("Neznaika na lune")
                 .setAuthors("Bunin", "Esenin")
                 .setYear(1995)
@@ -59,7 +58,7 @@ public class StaticDataProvider {
 
     public static String[] parseTags(Book book) {
         return new String[]{
-                book.getId(),
+                String.valueOf(book.getId()),
                 book.getTitle(),
                 book.getAuthors(),
                 String.valueOf(book.getYear()),

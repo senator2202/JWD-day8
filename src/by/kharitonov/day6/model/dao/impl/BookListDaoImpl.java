@@ -5,10 +5,13 @@ import by.kharitonov.day6.model.connect.SqlConnector;
 import by.kharitonov.day6.model.creator.BookCreator;
 import by.kharitonov.day6.model.dao.BookListDao;
 import by.kharitonov.day6.model.entity.Book;
-import by.kharitonov.day6.model.entity.FindRequest;
+import by.kharitonov.day6.model.entity.SelectRequest;
 import by.kharitonov.day6.model.exception.DaoException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +19,33 @@ public class BookListDaoImpl implements BookListDao {
 
     @Override
     public void addBook(Book book) throws DaoException {
+        DataBaseHelper helper = new DataBaseHelper();
+        try (Connection connection = SqlConnector.connect();
+             PreparedStatement statement =
+                     helper.prepareStatementAdd(connection, book)) {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
     }
 
     @Override
     public void removeBook(Book removingBook) throws DaoException {
+        DataBaseHelper helper = new DataBaseHelper();
+        try (Connection connection = SqlConnector.connect();
+             PreparedStatement statement =
+                     helper.prepareStatementDelete(connection, removingBook)) {
+            int result = statement.executeUpdate();
+            if (result == 0) {
+                throw new DaoException("There is no such book in warehouse!");
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
     }
 
     @Override
-    public List<Book> findBooks(FindRequest findRequest) throws DaoException {
+    public List<Book> findBooks(SelectRequest selectRequest) throws DaoException {
         List<Book> allBooks = new ArrayList<>();
         DataBaseHelper helper = new DataBaseHelper();
         Connection connection = null;
@@ -32,7 +54,7 @@ public class BookListDaoImpl implements BookListDao {
             PreparedStatement statement = null;
             try {
                 statement = helper
-                        .getPreparedStatementFind(connection, findRequest);
+                        .prepareStatementFind(connection, selectRequest);
                 ResultSet resultSet = null;
                 try {
                     resultSet = statement.executeQuery();
@@ -53,67 +75,5 @@ public class BookListDaoImpl implements BookListDao {
             helper.close(connection);
         }
         return allBooks;
-    }
-
-    @Override
-    public List<Book> findAll() throws DaoException {
-        List<Book> allBooks = new ArrayList<>();
-        DataBaseHelper helper = new DataBaseHelper();
-        Connection connection = null;
-        try {
-            connection = SqlConnector.connect();
-            PreparedStatement statement = null;
-            try {
-                statement = helper.getPreparedStatementFindAll(connection);
-                ResultSet resultSet = null;
-                try {
-                    resultSet = statement.executeQuery();
-                    while (resultSet.next()) {
-                        BookCreator bookCreator = new BookCreator();
-                        Book book = bookCreator.create(resultSet);
-                        allBooks.add(book);
-                    }
-                } finally {
-                    helper.close(resultSet);
-                }
-            } finally {
-                helper.close(statement);
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Error while reading database!", e);
-        } finally {
-            helper.close(connection);
-        }
-        return allBooks;
-    }
-
-    private void close(Connection connection) throws DaoException {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new DaoException("Сonnection close error! ", e);
-            }
-        }
-    }
-
-    private void close(Statement statement) throws DaoException {
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                throw new DaoException("Statement close error! ", e);
-            }
-        }
-    }
-
-    private void close(ResultSet resultSet) throws DaoException {
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                throw new DaoException("ResultSet close error! ", e);
-            }
-        }
     }
 }
