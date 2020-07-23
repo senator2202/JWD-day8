@@ -1,7 +1,5 @@
 package by.kharitonov.day6.model.entity;
 
-import by.kharitonov.day6.model.util.IdGenerator;
-
 import java.util.Arrays;
 import java.util.Comparator;
 

@@ -8,6 +8,7 @@ import by.kharitonov.day6.model.entity.SelectRequest;
 import by.kharitonov.day6.model.entity.SortRequest;
 import by.kharitonov.day6.model.exception.DaoException;
 import by.kharitonov.day6.model.type.BookTag;
+import org.mockito.InjectMocks;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import test.kharitonov.day6.data_provider.StaticDataProvider;
@@ -19,6 +20,10 @@ import static org.testng.Assert.assertEquals;
 
 public class BookListDaoImplTest {
     private final BookListDao dao = new BookListDaoImpl();
+
+    @Test
+    public void setUp() throws Exception {
+    }
 
     @Test
     public void testAddBook() throws DaoException {

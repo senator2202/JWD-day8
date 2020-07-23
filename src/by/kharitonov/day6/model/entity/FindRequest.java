@@ -21,6 +21,28 @@ public class FindRequest extends SelectRequest {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        FindRequest that = (FindRequest) o;
+        if (findTag != that.findTag) {
+            return false;
+        }
+        return tagValue.equals(that.tagValue);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = findTag.hashCode();
+        result = 31 * result + tagValue.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("FindRequest{");
         sb.append("findTag=").append(findTag);
