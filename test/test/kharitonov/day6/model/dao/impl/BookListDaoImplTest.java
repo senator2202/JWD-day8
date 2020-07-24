@@ -3,12 +3,11 @@ package test.kharitonov.day6.model.dao.impl;
 import by.kharitonov.day6.model.dao.BookListDao;
 import by.kharitonov.day6.model.dao.impl.BookListDaoImpl;
 import by.kharitonov.day6.model.entity.Book;
-import by.kharitonov.day6.model.entity.FindRequest;
-import by.kharitonov.day6.model.entity.SelectRequest;
-import by.kharitonov.day6.model.entity.SortRequest;
 import by.kharitonov.day6.model.exception.DaoException;
+import by.kharitonov.day6.model.request.impl.FindRequestImpl;
+import by.kharitonov.day6.model.request.SelectRequest;
+import by.kharitonov.day6.model.request.impl.SortRequestImpl;
 import by.kharitonov.day6.model.type.BookTag;
-import org.mockito.InjectMocks;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import test.kharitonov.day6.data_provider.StaticDataProvider;
@@ -22,17 +21,18 @@ public class BookListDaoImplTest {
     private final BookListDao dao = new BookListDaoImpl();
 
     @Test
-    public void setUp() throws Exception {
-    }
-
-    @Test
     public void testAddBook() throws DaoException {
-            dao.addBook(StaticDataProvider.ADDING_BOOK);
+        dao.addBook(StaticDataProvider.ADDING_BOOK);
     }
 
     @Test
     public void testRemoveBook() throws DaoException {
-        dao.removeBook(StaticDataProvider.ADDING_BOOK);
+        dao.removeBookByTags(StaticDataProvider.ADDING_BOOK);
+    }
+
+    @Test
+    public void testRemoveBookById() throws DaoException {
+        dao.removeBookById(5);
     }
 
     @DataProvider(name = "dataFindBooks")
@@ -82,22 +82,22 @@ public class BookListDaoImplTest {
         foundPagesList.add(StaticDataProvider.FOURS_BOOK);
         foundPublisherList.add(StaticDataProvider.SECOND_BOOK);
         return new Object[][]{
-                {new FindRequest(BookTag.ID_BOOK, "1"), foundIdList},
-                {new FindRequest(BookTag.TITLE,
+                {new FindRequestImpl(BookTag.ID_BOOK, "1"), foundIdList},
+                {new FindRequestImpl(BookTag.TITLE,
                         "Harry Potter and the deathly hallows"),
                         foundTitleList},
-                {new FindRequest(BookTag.AUTHORS, "Joan Roaling"),
+                {new FindRequestImpl(BookTag.AUTHORS, "Joan Roaling"),
                         foundAuthorsList},
-                {new FindRequest(BookTag.YEAR, "2015"), foundYearList},
-                {new FindRequest(BookTag.PAGES, "788"), foundPagesList},
-                {new FindRequest(BookTag.PUBLISHER, "Vysnova"),
+                {new FindRequestImpl(BookTag.YEAR, "2015"), foundYearList},
+                {new FindRequestImpl(BookTag.PAGES, "788"), foundPagesList},
+                {new FindRequestImpl(BookTag.PUBLISHER, "Vysnova"),
                         foundPublisherList},
-                {new SortRequest(BookTag.ID_BOOK), sortedListId},
-                {new SortRequest(BookTag.TITLE), sortedListTitle},
-                {new SortRequest(BookTag.AUTHORS), sortedListAuthors},
-                {new SortRequest(BookTag.YEAR), sortedListYear},
-                {new SortRequest(BookTag.PAGES), sortedListPages},
-                {new SortRequest(BookTag.PUBLISHER), sortedListPublisher}
+                {new SortRequestImpl(BookTag.ID_BOOK), sortedListId},
+                {new SortRequestImpl(BookTag.TITLE), sortedListTitle},
+                {new SortRequestImpl(BookTag.AUTHORS), sortedListAuthors},
+                {new SortRequestImpl(BookTag.YEAR), sortedListYear},
+                {new SortRequestImpl(BookTag.PAGES), sortedListPages},
+                {new SortRequestImpl(BookTag.PUBLISHER), sortedListPublisher}
         };
     }
 

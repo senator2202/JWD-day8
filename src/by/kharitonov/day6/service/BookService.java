@@ -3,10 +3,10 @@ package by.kharitonov.day6.service;
 import by.kharitonov.day6.model.dao.BookListDao;
 import by.kharitonov.day6.model.dao.impl.BookListDaoImpl;
 import by.kharitonov.day6.model.entity.Book;
-import by.kharitonov.day6.model.entity.FindRequest;
-import by.kharitonov.day6.model.entity.SelectRequest;
-import by.kharitonov.day6.model.entity.SortRequest;
 import by.kharitonov.day6.model.exception.DaoException;
+import by.kharitonov.day6.model.request.impl.FindRequestImpl;
+import by.kharitonov.day6.model.request.SelectRequest;
+import by.kharitonov.day6.model.request.impl.SortRequestImpl;
 import by.kharitonov.day6.model.type.BookTag;
 import by.kharitonov.day6.service.exception.ServiceException;
 import by.kharitonov.day6.service.parser.BookParser;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class BookService {
     public List<Book> addBook(String[] tagValues) throws ServiceException {
-        if (!new BookValidator().validateAllBookTags(tagValues)) {
+        if (!new BookValidator().validateAddParameters(tagValues)) {
             throw new ServiceException("Invalid book parameters!");
         }
         BookParser parser = new BookParser();
@@ -25,30 +25,53 @@ public class BookService {
         BookListDao dao = new BookListDaoImpl();
         List<Book> resultList = new ArrayList<>();
         try {
-            dao.addBook(book);
+            book = dao.addBook(book);
             resultList.add(book);
-            return resultList;
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+        return resultList;
     }
 
     public List<Book> removeBook(String[] tagValues)
             throws ServiceException {
-        if (!new BookValidator().validateAllBookTags(tagValues)) {
+        if (!new BookValidator().validateRemoveParameters(tagValues)) {
             throw new ServiceException("Invalid book parameters!");
         }
-        BookParser parser = new BookParser();
-        Book book = parser.parseBook(tagValues);
-        BookListDao dao = new BookListDaoImpl();
+        boolean removingById = tagValues.length == 1;
+        List<Book> resultList;
+        resultList = removingById
+                ? removeBookById(tagValues)
+                : removeBookByTags(tagValues);
+        return resultList;
+    }
+
+    private List<Book> removeBookById(String[] tagValues)
+            throws ServiceException {
         List<Book> resultList = new ArrayList<>();
         try {
-            dao.removeBook(book);
+            BookListDao dao = new BookListDaoImpl();
+            int id = Integer.parseInt(tagValues[BookValidator.ID_INDEX]);
+            Book book = dao.removeBookById(id);
             resultList.add(book);
-            return resultList;
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+        return resultList;
+    }
+
+    private List<Book> removeBookByTags(String[] tagValues)
+            throws ServiceException {
+        List<Book> resultList;
+        try {
+            BookListDao dao = new BookListDaoImpl();
+            BookParser parser = new BookParser();
+            Book book = parser.parseBook(tagValues);
+            resultList = dao.removeBookByTags(book);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return resultList;
     }
 
     public List<Book> findBooks(String[] parameters)
@@ -60,8 +83,8 @@ public class BookService {
         BookTag bookTag =
                 parser.parseBookTag(parameters[BookValidator.BOOK_TAG_INDEX]);
         String tagValue = parameters[BookValidator.TAG_VALUE_INDEX];
-        FindRequest findRequest =
-                new FindRequest(bookTag, tagValue);
+        FindRequestImpl findRequest =
+                new FindRequestImpl(bookTag, tagValue);
         return executeFind(findRequest);
     }
 
@@ -73,7 +96,7 @@ public class BookService {
         BookParser parser = new BookParser();
         BookTag bookTag =
                 parser.parseBookTag(parameters[BookValidator.BOOK_TAG_INDEX]);
-        SortRequest sortRequest = new SortRequest(bookTag);
+        SortRequestImpl sortRequest = new SortRequestImpl(bookTag);
         return executeFind(sortRequest);
     }
 

@@ -1,11 +1,12 @@
-package by.kharitonov.day6.model.entity;
+package by.kharitonov.day6.model.request.impl;
 
+import by.kharitonov.day6.model.request.SelectRequest;
 import by.kharitonov.day6.model.type.BookTag;
 
-public class SortRequest extends SelectRequest {
+public class SortRequestImpl implements SelectRequest {
     private BookTag sortTag;
 
-    public SortRequest(BookTag sortTag) {
+    public SortRequestImpl(BookTag sortTag) {
         this.sortTag = sortTag;
     }
 
@@ -22,7 +23,7 @@ public class SortRequest extends SelectRequest {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        SortRequest that = (SortRequest) o;
+        SortRequestImpl that = (SortRequestImpl) o;
         return sortTag == that.sortTag;
     }
 

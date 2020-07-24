@@ -3,8 +3,6 @@ package test.kharitonov.day6.service;
 import by.kharitonov.day6.model.entity.Book;
 import by.kharitonov.day6.service.BookService;
 import by.kharitonov.day6.service.exception.ServiceException;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import test.kharitonov.day6.data_provider.StaticDataProvider;
@@ -13,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class BookServiceTest {
     private final BookService service = new BookService();
@@ -53,6 +50,7 @@ public class BookServiceTest {
         expectedList.add(StaticDataProvider.FIRST_BOOK);
         assertEquals(actualList, expectedList);
     }
+
     @Parameters("tagValues")
     @Test(dataProvider = "invalidBookTags",
             dataProviderClass = StaticDataProvider.class,

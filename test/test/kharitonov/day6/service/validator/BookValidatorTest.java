@@ -40,9 +40,9 @@ public class BookValidatorTest {
         assertEquals(actualResult, expectedResult);
     }
 
-    @DataProvider(name = "dataValidateAllBookTags")
+    @DataProvider(name = "dataValidateAddParameters")
     @Test
-    public Object[][] dataValidateAllBookTags() {
+    public Object[][] dataValidateAddParameters() {
         return new Object[][]{
                 {false, null},
                 {false, "12", "Harry", "Bunin", "1900", "444"},
@@ -57,10 +57,29 @@ public class BookValidatorTest {
     }
 
     @Parameters({"expectedResult", "tagValues"})
-    @Test(dataProvider = "dataValidateAllBookTags")
-    public void testValidateAllBookTags(boolean expectedResult,
-                                        String[] tagValues) {
-        boolean actualResult = validator.validateAllBookTags(tagValues);
+    @Test(dataProvider = "dataValidateAddParameters")
+    public void testValidateAddParameters(boolean expectedResult,
+                                          String[] tagValues) {
+        boolean actualResult = validator.validateAddParameters(tagValues);
+        assertEquals(actualResult, expectedResult);
+    }
+
+    @DataProvider(name = "dataValidateRemoveParameters")
+    @Test
+    public Object[][] dataValidateRemoveParameters() {
+        return new Object[][]{
+                {true, "4"},
+                {true, "23", "-12321"},
+                {false, "-322"},
+                {false, "123456789123"}
+        };
+    }
+
+    @Parameters({"expected", "parameters"})
+    @Test(dataProvider = "dataValidateRemoveParameters")
+    public void testValidateRemoveParameters(boolean expectedResult,
+                                             String[] parameters) {
+        boolean actualResult = validator.validateRemoveParameters(parameters);
         assertEquals(actualResult, expectedResult);
     }
 

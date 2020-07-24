@@ -15,12 +15,13 @@ public class BookValidator {
     public static final int YEAR_INDEX = 3;
     public static final int PAGES_INDEX = 4;
     public static final int PUBLISHING_HOUSE_INDEX = 5;
-    private static final int TAG_NUMBERS = 6;
+    public static final int TAG_NUMBERS = 6;
     private static final int FIND_PARAMETERS_NUMBER = 2;
     private static final int SORT_PARAMETERS_NUMBER = 1;
     private static final int MIN_YEAR = 1800;
     private static final int MAX_YEAR;
     private static final int MAX_PAGES = 2000;
+    private static final int MAX_STRING_LENGTH = 45;
 
     static {
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault(),
@@ -36,12 +37,18 @@ public class BookValidator {
         return pages > 0 && pages <= MAX_PAGES;
     }
 
+    private boolean validateId(int id) {
+        String stringId = String.valueOf(id);
+        int intId = Integer.parseInt(stringId);
+        return intId > 0 && stringId.length() <= 11;
+    }
+
     public boolean validateTag(BookTag bookTag, String stringValue) {
         if (bookTag == null || stringValue == null || stringValue.isEmpty()) {
             return false;
         }
         if (bookTag != BookTag.PAGES && bookTag != BookTag.YEAR) {
-            return true;
+            return stringValue.length() < MAX_STRING_LENGTH;
         }
         boolean result;
         try {
@@ -55,7 +62,7 @@ public class BookValidator {
         return result;
     }
 
-    public boolean validateAllBookTags(String[] tagValues) {
+    public boolean validateAddParameters(String[] tagValues) {
         if (tagValues == null || tagValues.length != TAG_NUMBERS) {
             return false;
         }
@@ -73,6 +80,21 @@ public class BookValidator {
             }
         } catch (NumberFormatException e) {
             result = false;
+        }
+        return result;
+    }
+
+    public boolean validateRemoveParameters(String[] parameters) {
+        boolean result;
+        if (parameters.length == TAG_NUMBERS) {
+            result = validateAddParameters(parameters);
+        } else {
+            try {
+                int id = Integer.parseInt(parameters[ID_INDEX]);
+                result = validateId(id);
+            } catch (NumberFormatException e) {
+                result = false;
+            }
         }
         return result;
     }

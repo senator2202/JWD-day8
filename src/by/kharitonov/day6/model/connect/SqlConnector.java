@@ -18,6 +18,9 @@ public class SqlConnector {
                     "&amp" +
                     "&serverTimezone=UTC";
 
+    private SqlConnector(){
+    }
+
     public static Connection connect() throws DaoException {
         try {
             return DriverManager.getConnection(HOST, USER_NAME, USER_PASSWORD);

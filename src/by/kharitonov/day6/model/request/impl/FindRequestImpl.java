@@ -1,12 +1,13 @@
-package by.kharitonov.day6.model.entity;
+package by.kharitonov.day6.model.request.impl;
 
+import by.kharitonov.day6.model.request.SelectRequest;
 import by.kharitonov.day6.model.type.BookTag;
 
-public class FindRequest extends SelectRequest {
+public class FindRequestImpl implements SelectRequest {
     private BookTag findTag;
     private String tagValue;
 
-    public FindRequest(BookTag findTag, String tagValue) {
+    public FindRequestImpl(BookTag findTag, String tagValue) {
         this.findTag = findTag;
         this.tagValue = tagValue;
     }
@@ -28,7 +29,7 @@ public class FindRequest extends SelectRequest {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        FindRequest that = (FindRequest) o;
+        FindRequestImpl that = (FindRequestImpl) o;
         if (findTag != that.findTag) {
             return false;
         }

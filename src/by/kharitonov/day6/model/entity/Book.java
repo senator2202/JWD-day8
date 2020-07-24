@@ -1,7 +1,6 @@
 package by.kharitonov.day6.model.entity;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class Book {
     private int id;
@@ -41,10 +40,6 @@ public class Book {
 
     public String getPublisher() {
         return publisher;
-    }
-
-    private String getMainAuthor() {
-        return authors.length == 0 ? "" : authors[0];
     }
 
     @Override
@@ -89,51 +84,6 @@ public class Book {
         sb.append(", publishingHouse:\"").append(publisher).append('\"');
         sb.append('}');
         return sb.toString();
-    }
-
-    public static class BookAuthorsComparator implements Comparator<Book> {
-        @Override
-        public int compare(Book o1, Book o2) {
-            if (o1.authors.length == o2.authors.length) {
-                return o1.getMainAuthor().compareTo(o2.getMainAuthor());
-            }
-            return o1.authors.length - o2.authors.length;
-        }
-    }
-
-    public static class BookIdComparator implements Comparator<Book> {
-        @Override
-        public int compare(Book o1, Book o2) {
-            return o1.getId() - o2.getId();
-        }
-    }
-
-    public static class BookPagesComparator implements Comparator<Book> {
-        @Override
-        public int compare(Book o1, Book o2) {
-            return o1.getPages() - o2.getPages();
-        }
-    }
-
-    public static class BookPublishingHouseComparator implements Comparator<Book> {
-        @Override
-        public int compare(Book o1, Book o2) {
-            return o1.getPublisher().compareTo(o2.getPublisher());
-        }
-    }
-
-    public static class BookTitleComparator implements Comparator<Book> {
-        @Override
-        public int compare(Book o1, Book o2) {
-            return o1.getTitle().compareTo(o2.getTitle());
-        }
-    }
-
-    public static class BookYearComparator implements Comparator<Book> {
-        @Override
-        public int compare(Book o1, Book o2) {
-            return o1.getYear() - o2.getYear();
-        }
     }
 
     public class Builder {
