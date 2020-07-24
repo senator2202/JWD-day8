@@ -30,4 +30,8 @@ public class BookCreator {
                 .setPublishingHouse(publisher)
                 .build();
     }
+
+    public int getBookId(ResultSet resultSet) throws SQLException {
+        return resultSet.getInt("id_book");
+    }
 }

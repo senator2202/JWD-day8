@@ -16,12 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookListDaoImpl implements BookListDao {
-    /*Method takes Book without id, inserts it into database,
-     * returns the same book with id.*/
+    /*Method takes Book without id, inserts this book into database,
+     * returns id of the book.*/
     @Override
-    public Book addBook(Book book) throws DaoException {
+    public int addBook(Book book) throws DaoException {
         DataBaseHelper helper = new DataBaseHelper();
-        Book addedBook = Book.newBuilder().build();
         ResultSet resultSet = null;
         try (Connection connection = SqlConnector.connect();
              PreparedStatement statementAdd =
@@ -30,16 +29,13 @@ public class BookListDaoImpl implements BookListDao {
                      helper.prepareStatementSelect(connection, book)) {
             statementAdd.executeUpdate();
             resultSet = statementSelect.executeQuery();
-            while (resultSet.next()) {
-                BookCreator bookCreator = new BookCreator();
-                addedBook = bookCreator.create(resultSet);
-            }
+            resultSet.next();
+            return new BookCreator().getBookId(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             close(resultSet);
         }
-        return addedBook;
     }
 
     /*Method takes book, deletes rows in database with the same tags,
@@ -72,7 +68,8 @@ public class BookListDaoImpl implements BookListDao {
     }
 
     /*Method takes book id, deletes from database row with the same id and
-     * returns deleted Book*/
+     * returns deleted Book. Methods throwws DaoException if there is on book
+     * in database with such id.*/
     @Override
     public Book removeBookById(int id) throws DaoException {
         DataBaseHelper helper = new DataBaseHelper();

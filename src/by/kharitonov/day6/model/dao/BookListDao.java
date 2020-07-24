@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface BookListDao {
-    Book addBook(Book book) throws DaoException;
+    int addBook(Book book) throws DaoException;
 
     List<Book> removeBookByTags(Book book) throws DaoException;
 

@@ -4,8 +4,8 @@ import by.kharitonov.day6.model.dao.BookListDao;
 import by.kharitonov.day6.model.dao.impl.BookListDaoImpl;
 import by.kharitonov.day6.model.entity.Book;
 import by.kharitonov.day6.model.exception.DaoException;
-import by.kharitonov.day6.model.request.impl.FindRequestImpl;
 import by.kharitonov.day6.model.request.SelectRequest;
+import by.kharitonov.day6.model.request.impl.FindRequestImpl;
 import by.kharitonov.day6.model.request.impl.SortRequestImpl;
 import by.kharitonov.day6.model.type.BookTag;
 import by.kharitonov.day6.service.exception.ServiceException;
@@ -25,8 +25,16 @@ public class BookService {
         BookListDao dao = new BookListDaoImpl();
         List<Book> resultList = new ArrayList<>();
         try {
-            book = dao.addBook(book);
-            resultList.add(book);
+            int id = dao.addBook(book);
+            Book addedBook = Book.newBuilder()
+                    .setId(id)
+                    .setTitle(book.getTitle())
+                    .setAuthors(book.getAuthors())
+                    .setYear(book.getYear())
+                    .setPages(book.getPages())
+                    .setPublishingHouse(book.getPublisher())
+                    .build();
+            resultList.add(addedBook);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
