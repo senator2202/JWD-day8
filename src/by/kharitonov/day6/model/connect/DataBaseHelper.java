@@ -2,8 +2,8 @@ package by.kharitonov.day6.model.connect;
 
 import by.kharitonov.day6.model.entity.Book;
 import by.kharitonov.day6.model.exception.DaoException;
-import by.kharitonov.day6.model.request.impl.FindRequestImpl;
 import by.kharitonov.day6.model.request.SelectRequest;
+import by.kharitonov.day6.model.request.impl.FindRequestImpl;
 import by.kharitonov.day6.model.request.impl.SortRequestImpl;
 
 import java.sql.Connection;
