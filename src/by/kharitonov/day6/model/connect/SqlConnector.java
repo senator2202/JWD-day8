@@ -32,7 +32,7 @@ public class SqlConnector {
         try {
             return DriverManager.getConnection(HOST, PROPERTIES);
         } catch (SQLException e) {
-            throw new DaoException("Unable to get connection!");
+            throw new DaoException("Unable to get connection!", e);
         }
     }
 }
