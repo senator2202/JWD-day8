@@ -23,6 +23,7 @@ public class SqlConnector {
         PROPERTIES.put("verifyServerCertificate", "false");
         PROPERTIES.put("useSSL", "false");
         PROPERTIES.put("requireSSL", "false");
+        PROPERTIES.put("allowPublicKeyRetrieval","true");
     }
 
     private SqlConnector() {

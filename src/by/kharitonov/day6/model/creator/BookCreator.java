@@ -32,6 +32,6 @@ public class BookCreator {
     }
 
     public int getBookId(ResultSet resultSet) throws SQLException {
-        return resultSet.getInt("id_book");
+        return resultSet.getInt(ID_COLUMN);
     }
 }

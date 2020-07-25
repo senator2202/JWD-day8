@@ -4,8 +4,8 @@ import by.kharitonov.day6.model.dao.BookListDao;
 import by.kharitonov.day6.model.dao.impl.BookListDaoImpl;
 import by.kharitonov.day6.model.entity.Book;
 import by.kharitonov.day6.model.exception.DaoException;
-import by.kharitonov.day6.model.request.impl.FindRequestImpl;
 import by.kharitonov.day6.model.request.SelectRequest;
+import by.kharitonov.day6.model.request.impl.FindRequestImpl;
 import by.kharitonov.day6.model.request.impl.SortRequestImpl;
 import by.kharitonov.day6.model.type.BookTag;
 import org.testng.annotations.DataProvider;
@@ -16,23 +16,50 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class BookListDaoImplTest {
     private final BookListDao dao = new BookListDaoImpl();
 
     @Test
     public void testAddBook() throws DaoException {
-        dao.addBook(StaticDataProvider.ADDING_BOOK);
+        int id = dao.addBook(StaticDataProvider.ADDING_BOOK);
+        FindRequestImpl findRequest = new FindRequestImpl(BookTag.ID_BOOK,
+                String.valueOf(id));
+        List<Book> list = dao.findBooks(findRequest);
+        boolean flag = list.size() == 1 & list.get(0).getId() == id;
+        assertTrue(flag);
     }
 
     @Test
-    public void testRemoveBook() throws DaoException {
-        dao.removeBookByTags(StaticDataProvider.ADDING_BOOK);
+    public void testRemoveBooks() throws DaoException {
+        addBookSeveralTimes(3);
+        List<Book> removedBooks =
+                dao.removeBooks(StaticDataProvider.ADDING_BOOK);
+        boolean flag = true;
+        for (Book removedBook : removedBooks) {
+            FindRequestImpl findRequest = new FindRequestImpl(BookTag.ID_BOOK,
+                    String.valueOf(removedBook.getId()));
+            flag &= dao.findBooks(findRequest).isEmpty();
+        }
+        assertTrue(flag);
     }
 
     @Test
     public void testRemoveBookById() throws DaoException {
-        dao.removeBookById(5);
+        int id = dao.addBook(StaticDataProvider.ADDING_BOOK);
+        Book removedBook = dao.removeBookById(id);
+        Book expectedBook = Book.newBuilder()
+                .setId(id)
+                .setTitle(StaticDataProvider.ADDING_BOOK.getTitle())
+                .setAuthors(StaticDataProvider.ADDING_BOOK
+                        .getAuthors().split(", "))
+                .setPages(StaticDataProvider.ADDING_BOOK.getPages())
+                .setYear(StaticDataProvider.ADDING_BOOK.getYear())
+                .setPublishingHouse(StaticDataProvider.ADDING_BOOK
+                        .getPublisher())
+                .build();
+        assertEquals(removedBook, expectedBook);
     }
 
     @DataProvider(name = "dataFindBooks")
@@ -105,7 +132,24 @@ public class BookListDaoImplTest {
     public void testFindBooks(SelectRequest selectRequest,
                               List<Book> expectedList)
             throws DaoException {
+        setUpDB();
         List<Book> actualList = dao.findBooks(selectRequest);
         assertEquals(actualList, expectedList);
+    }
+
+    private void setUpDB() throws DaoException {
+        SortRequestImpl sortRequest = new SortRequestImpl(BookTag.ID_BOOK);
+        List<Book> allBooks = dao.findBooks(sortRequest);
+        for (Book book : allBooks) {
+            if (book.getId() > 4) {
+                dao.removeBookById(book.getId());
+            }
+        }
+    }
+
+    private void addBookSeveralTimes(int count) throws DaoException {
+        for (int i = 0; i < count; i++) {
+            dao.addBook(StaticDataProvider.ADDING_BOOK);
+        }
     }
 }

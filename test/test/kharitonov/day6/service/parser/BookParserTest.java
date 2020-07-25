@@ -25,12 +25,12 @@ public class BookParserTest {
     @Test
     public Object[][] dataParseBookTag() {
         return new Object[][]{
-                {"id", BookTag.ID_BOOK},
+                {"id_book", BookTag.ID_BOOK},
                 {"title", BookTag.TITLE},
                 {"authors", BookTag.AUTHORS},
                 {"year", BookTag.YEAR},
                 {"pages", BookTag.PAGES},
-                {"publishing_house", BookTag.PUBLISHER}
+                {"publisher", BookTag.PUBLISHER}
         };
     }
 

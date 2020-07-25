@@ -75,7 +75,7 @@ public class BookService {
             BookListDao dao = new BookListDaoImpl();
             BookParser parser = new BookParser();
             Book book = parser.parseBook(tagValues);
-            resultList = dao.removeBookByTags(book);
+            resultList = dao.removeBooks(book);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

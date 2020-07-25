@@ -11,7 +11,7 @@ import java.util.List;
 public interface BookListDao {
     int addBook(Book book) throws DaoException;
 
-    List<Book> removeBookByTags(Book book) throws DaoException;
+    List<Book> removeBooks(Book book) throws DaoException;
 
     Book removeBookById(int id) throws DaoException;
 

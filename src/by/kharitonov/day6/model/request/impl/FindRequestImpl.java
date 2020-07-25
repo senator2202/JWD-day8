@@ -4,8 +4,8 @@ import by.kharitonov.day6.model.request.SelectRequest;
 import by.kharitonov.day6.model.type.BookTag;
 
 public class FindRequestImpl implements SelectRequest {
-    private BookTag findTag;
-    private String tagValue;
+    private final BookTag findTag;
+    private final String tagValue;
 
     public FindRequestImpl(BookTag findTag, String tagValue) {
         this.findTag = findTag;

@@ -38,27 +38,26 @@ public class BookListDaoImpl implements BookListDao {
         }
     }
 
-    /*Method takes book, deletes rows in database with the same tags,
-     * excluding id, and returns list of deleted books.
+    /*Method takes book, selects rows in database with the same tags,
+     * (excluding id) deletes them through ResultSet and returns list
+     * of deleted books.
      * Method throws DaoException if database doesn't have books
      * with the same tags.*/
     @Override
-    public List<Book> removeBookByTags(Book removingBook) throws DaoException {
+    public List<Book> removeBooks(Book removingBook) throws DaoException {
         DataBaseHelper helper = new DataBaseHelper();
         List<Book> removedBooks = new ArrayList<>();
         try (Connection connection = SqlConnector.connect();
              PreparedStatement statementSelect =
                      helper.prepareStatementSelect(connection, removingBook);
-             ResultSet resultSet = statementSelect.executeQuery();
-             PreparedStatement statementDelete =
-                     helper.prepareStatementDelete(connection, removingBook)) {
+             ResultSet resultSet = statementSelect.executeQuery()) {
             while (resultSet.next()) {
                 BookCreator bookCreator = new BookCreator();
                 Book book = bookCreator.create(resultSet);
                 removedBooks.add(book);
+                resultSet.deleteRow();
             }
-            int result = statementDelete.executeUpdate();
-            if (result == 0) {
+            if (removedBooks.isEmpty()) {
                 throw new DaoException("There is no such book in warehouse!");
             }
         } catch (SQLException e) {
@@ -67,8 +66,9 @@ public class BookListDaoImpl implements BookListDao {
         return removedBooks;
     }
 
-    /*Method takes book id, deletes from database row with the same id and
-     * returns deleted Book. Methods throwws DaoException if there is on book
+    /*Method takes book id, select row in database with the same id_book,
+     * deletes it through ResultSet and returns deleted Book.
+     * Methods throws DaoException if there is on book
      * in database with such id.*/
     @Override
     public Book removeBookById(int id) throws DaoException {
@@ -77,16 +77,13 @@ public class BookListDaoImpl implements BookListDao {
         try (Connection connection = SqlConnector.connect();
              PreparedStatement statementSelectById =
                      helper.prepareStatementSelectById(connection, id);
-             PreparedStatement statementDeleteById =
-                     helper.prepareStatementDeleteById(connection, id)) {
-            ResultSet resultSet = statementSelectById.executeQuery();
-            int result;
+             ResultSet resultSet = statementSelectById.executeQuery()) {
             while (resultSet.next()) {
                 BookCreator bookCreator = new BookCreator();
                 book = bookCreator.create(resultSet);
+                resultSet.deleteRow();
             }
-            result = statementDeleteById.executeUpdate();
-            if (result == 0) {
+            if (book.getId() == 0) {
                 throw new DaoException("There is no such book in warehouse!");
             }
         } catch (SQLException e) {
@@ -95,14 +92,14 @@ public class BookListDaoImpl implements BookListDao {
         return book;
     }
 
-    /*Metohod takes SelectRequest. It could be FindRequest or SortRequest. Than,
+    /*Method takes SelectRequest. It could be FindRequest or SortRequest. Than,
      * according to the select request, it returns list of found books
      * (if selectRequest is instance of FindRequest) or list of sorted books
      * (if selectRequest is instance of SortRequest)*/
     @Override
     public List<Book> findBooks(SelectRequest selectRequest)
             throws DaoException {
-        List<Book> allBooks = new ArrayList<>();
+        List<Book> foundBooks = new ArrayList<>();
         DataBaseHelper helper = new DataBaseHelper();
         try (Connection connection = SqlConnector.connect();
              PreparedStatement statement = helper
@@ -111,11 +108,11 @@ public class BookListDaoImpl implements BookListDao {
             while (resultSet.next()) {
                 BookCreator bookCreator = new BookCreator();
                 Book book = bookCreator.create(resultSet);
-                allBooks.add(book);
+                foundBooks.add(book);
             }
         } catch (SQLException e) {
             throw new DaoException("Error while reading database!", e);
         }
-        return allBooks;
+        return foundBooks;
     }
 }

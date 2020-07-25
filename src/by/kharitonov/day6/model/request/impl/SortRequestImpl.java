@@ -4,7 +4,7 @@ import by.kharitonov.day6.model.request.SelectRequest;
 import by.kharitonov.day6.model.type.BookTag;
 
 public class SortRequestImpl implements SelectRequest {
-    private BookTag sortTag;
+    private final BookTag sortTag;
 
     public SortRequestImpl(BookTag sortTag) {
         this.sortTag = sortTag;
