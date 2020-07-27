@@ -32,8 +32,9 @@ public class DataBaseHelper {
     public PreparedStatement prepareStatementAdd(Connection connection,
                                                  Book book)
             throws DaoException {
-        try (PreparedStatement statement = connection
-                .prepareStatement(SQL_INSERT)) {
+        try {
+            PreparedStatement statement = connection
+                .prepareStatement(SQL_INSERT);
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthors());
             statement.setInt(3, book.getYear());
@@ -48,10 +49,11 @@ public class DataBaseHelper {
     public PreparedStatement prepareStatementSelect(Connection connection,
                                                     Book book)
             throws DaoException {
-        try (PreparedStatement statement =
-                     connection.prepareStatement(SQL_SELECT,
-                             ResultSet.TYPE_SCROLL_INSENSITIVE,
-                             ResultSet.CONCUR_UPDATABLE)) {
+        try{
+            PreparedStatement statement =
+                    connection.prepareStatement(SQL_SELECT,
+                            ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_UPDATABLE);
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthors());
             statement.setInt(3, book.getYear());
@@ -66,10 +68,11 @@ public class DataBaseHelper {
     public PreparedStatement prepareStatementSelectById(Connection connection,
                                                         int bookId)
             throws DaoException {
-        try (PreparedStatement statement =
-                     connection.prepareStatement(SQL_SELECT_BY_ID,
-                             ResultSet.TYPE_SCROLL_INSENSITIVE,
-                             ResultSet.CONCUR_UPDATABLE)) {
+        try {
+            PreparedStatement statement =
+                    connection.prepareStatement(SQL_SELECT_BY_ID,
+                            ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_UPDATABLE);
             statement.setInt(1, bookId);
             return statement;
         } catch (SQLException e) {
@@ -80,7 +83,7 @@ public class DataBaseHelper {
     public PreparedStatement prepareStatementFind(Connection connection,
                                                   SelectRequest selectRequest)
             throws DaoException {
-        PreparedStatement statement = null;
+        PreparedStatement statement;
         try {
             if (selectRequest instanceof SortRequestImpl) {
                 String sqlOrder = String.format(SQL_ORDER,
