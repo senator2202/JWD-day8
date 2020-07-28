@@ -111,19 +111,15 @@ public class StaticDataProvider {
     @DataProvider(name = "foundBooks")
     @Test
     public Object[][] foundBooks() {
-        List<Book> listId = new ArrayList<>();
         List<Book> listTitle = new ArrayList<>();
         List<Book> listAuthors = new ArrayList<>();
         List<Book> listYear = new ArrayList<>();
         List<Book> listPages = new ArrayList<>();
-        List<Book> listPublisher = new ArrayList<>();
-        listId.add(SECOND_BOOK);
         listTitle.add(SECOND_BOOK);
         listAuthors.add(FIRST_BOOK);
         listAuthors.add(FOURS_BOOK);
         listYear.add(FIRST_BOOK);
         listPages.add(THIRD_BOOK);
-        listPublisher.add(THIRD_BOOK);
         return new Object[][]{
                 {listTitle, "title", "Lord of the rings"},
                 {listAuthors, "authors", "Joan Roaling"},
@@ -135,16 +131,10 @@ public class StaticDataProvider {
     @DataProvider(name = "sortedBooks")
     @Test
     public Object[][] sortedBooks() {
-        List<Book> listId = new ArrayList<>();
         List<Book> listTitle = new ArrayList<>();
         List<Book> listAuthors = new ArrayList<>();
         List<Book> listYear = new ArrayList<>();
         List<Book> listPages = new ArrayList<>();
-        List<Book> listPublisher = new ArrayList<>();
-        listId.add(SECOND_BOOK);
-        listId.add(FIRST_BOOK);
-        listId.add(THIRD_BOOK);
-        listId.add(FOURS_BOOK);
         listTitle.add(FIRST_BOOK);
         listTitle.add(FOURS_BOOK);
         listTitle.add(SECOND_BOOK);
@@ -161,10 +151,6 @@ public class StaticDataProvider {
         listPages.add(FOURS_BOOK);
         listPages.add(FIRST_BOOK);
         listPages.add(SECOND_BOOK);
-        listPublisher.add(FIRST_BOOK);
-        listPublisher.add(THIRD_BOOK);
-        listPublisher.add(FOURS_BOOK);
-        listPublisher.add(SECOND_BOOK);
         return new Object[][]{
                 {listTitle, "title"},
                 {listAuthors, "authors"},
