@@ -34,13 +34,6 @@ public class BookServiceTest {
         service.addBook(tagValues);
     }
 
-    @Test(expectedExceptions = ServiceException.class)
-    public void testAddExistingBook() throws ServiceException {
-        Book book = StaticDataProvider.FIRST_BOOK;
-        String[] bookTags = StaticDataProvider.parseTags(book);
-        service.addBook(bookTags);
-    }
-
     @Test
     public void testRemoveBook() throws ServiceException {
         Book book = StaticDataProvider.FIRST_BOOK;
@@ -58,13 +51,6 @@ public class BookServiceTest {
     public void testRemoveBookInvalidTags(String[] tagValues)
             throws ServiceException {
         service.removeBook(tagValues);
-    }
-
-    @Test(expectedExceptions = ServiceException.class)
-    public void testRemoveNotExistingBook() throws ServiceException {
-        Book book = StaticDataProvider.ADDING_BOOK;
-        String[] bookTags = StaticDataProvider.parseTags(book);
-        service.removeBook(bookTags);
     }
 
     @Parameters({"expectedList", "parameters"})

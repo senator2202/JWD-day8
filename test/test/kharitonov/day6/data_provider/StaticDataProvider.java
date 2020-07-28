@@ -125,12 +125,10 @@ public class StaticDataProvider {
         listPages.add(THIRD_BOOK);
         listPublisher.add(THIRD_BOOK);
         return new Object[][]{
-                {listId, "id", "1"},
                 {listTitle, "title", "Lord of the rings"},
                 {listAuthors, "authors", "Joan Roaling"},
                 {listYear, "year", "2007"},
                 {listPages, "pages", "416"},
-                {listPublisher, "publishing_house", "Ishi Press"}
         };
     }
 
@@ -168,12 +166,10 @@ public class StaticDataProvider {
         listPublisher.add(FOURS_BOOK);
         listPublisher.add(SECOND_BOOK);
         return new Object[][]{
-                {listId, "id"},
                 {listTitle, "title"},
                 {listAuthors, "authors"},
                 {listYear, "year"},
                 {listPages, "pages"},
-                {listPublisher, "publishing_house"}
         };
     }
 }
