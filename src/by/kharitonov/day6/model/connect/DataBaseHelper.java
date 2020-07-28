@@ -34,7 +34,7 @@ public class DataBaseHelper {
             throws DaoException {
         try {
             PreparedStatement statement = connection
-                .prepareStatement(SQL_INSERT);
+                    .prepareStatement(SQL_INSERT);
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthors());
             statement.setInt(3, book.getYear());
@@ -49,7 +49,7 @@ public class DataBaseHelper {
     public PreparedStatement prepareStatementSelect(Connection connection,
                                                     Book book)
             throws DaoException {
-        try{
+        try {
             PreparedStatement statement =
                     connection.prepareStatement(SQL_SELECT,
                             ResultSet.TYPE_SCROLL_INSENSITIVE,
