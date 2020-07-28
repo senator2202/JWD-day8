@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookListDaoImpl implements BookListDao {
-    /*Method takes Book without id, inserts this book into database,
+    /*Method takes Book, inserts this book into database,
      * returns id of the book.*/
     @Override
     public int addBook(Book book) throws DaoException {
