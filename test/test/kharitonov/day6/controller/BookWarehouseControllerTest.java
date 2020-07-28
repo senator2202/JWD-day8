@@ -5,7 +5,6 @@ import by.kharitonov.day6.controller.exception.CommandException;
 import by.kharitonov.day6.controller.response.CommandResult;
 import by.kharitonov.day6.model.entity.Book;
 import by.kharitonov.day6.service.exception.ServiceException;
-import by.kharitonov.day6.view.ViewEmulator;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import test.kharitonov.day6.data_provider.StaticDataProvider;
@@ -25,10 +24,11 @@ public class BookWarehouseControllerTest {
         Book book = StaticDataProvider.ADDING_BOOK;
         String[] bookTags = StaticDataProvider.parseTags(book);
         CommandResult expectedResult;
+        CommandResult actualResult;
         addList.add(StaticDataProvider.ADDING_BOOK);
         expectedResult = new CommandResult(addList, null);
-        controller.processRequest("add", bookTags);
-        assertEquals(ViewEmulator.getCommandResult(), expectedResult);
+        actualResult = controller.processRequest("add", bookTags);
+        assertEquals(actualResult, expectedResult);
     }
 
     @Parameters("tagValues")
@@ -37,11 +37,12 @@ public class BookWarehouseControllerTest {
     public void testProcessRequestAddException(String[] tagValues) {
         List<Book> addList = new ArrayList<>();
         CommandResult expectedResult;
+        CommandResult actualResult;
         ServiceException exception =
                 new ServiceException("Invalid book parameters!");
         expectedResult = new CommandResult(addList, exception);
-        controller.processRequest("add", tagValues);
-        assertEquals(ViewEmulator.getCommandResult(), expectedResult);
+        actualResult = controller.processRequest("add", tagValues);
+        assertEquals(actualResult, expectedResult);
     }
 
     @Test
@@ -50,11 +51,12 @@ public class BookWarehouseControllerTest {
         Book book = StaticDataProvider.FIRST_BOOK;
         String[] bookTags = StaticDataProvider.parseTags(book);
         CommandResult expectedResult;
+        CommandResult actualResult;
         ServiceException exception =
                 new ServiceException("This book already exists!");
         expectedResult = new CommandResult(addList, exception);
-        controller.processRequest("add", bookTags);
-        assertEquals(ViewEmulator.getCommandResult(), expectedResult);
+        actualResult = controller.processRequest("add", bookTags);
+        assertEquals(actualResult, expectedResult);
     }
 
     @Test
@@ -63,10 +65,11 @@ public class BookWarehouseControllerTest {
         Book book = StaticDataProvider.SECOND_BOOK;
         String[] bookTags = StaticDataProvider.parseTags(book);
         CommandResult expectedResult;
+        CommandResult actualResult;
         addList.add(StaticDataProvider.SECOND_BOOK);
         expectedResult = new CommandResult(addList, null);
-        controller.processRequest("remove", bookTags);
-        assertEquals(ViewEmulator.getCommandResult(), expectedResult);
+        actualResult = controller.processRequest("remove", bookTags);
+        assertEquals(actualResult, expectedResult);
     }
 
     @Parameters("tagValues")
@@ -75,11 +78,12 @@ public class BookWarehouseControllerTest {
     public void testProcessRequestRemoveException(String[] tagValues) {
         List<Book> addList = new ArrayList<>();
         CommandResult expectedResult;
+        CommandResult actualResult;
         ServiceException exception =
                 new ServiceException("Invalid book parameters!");
         expectedResult = new CommandResult(addList, exception);
-        controller.processRequest("remove", tagValues);
-        assertEquals(ViewEmulator.getCommandResult(), expectedResult);
+        actualResult = controller.processRequest("remove", tagValues);
+        assertEquals(actualResult, expectedResult);
     }
 
     @Test
@@ -88,11 +92,12 @@ public class BookWarehouseControllerTest {
         Book book = StaticDataProvider.ADDING_BOOK;
         String[] bookTags = StaticDataProvider.parseTags(book);
         CommandResult expectedResult;
+        CommandResult actualResult;
         ServiceException exception =
                 new ServiceException("Such book doesn't exist!");
         expectedResult = new CommandResult(addList, exception);
-        controller.processRequest("remove", bookTags);
-        assertEquals(ViewEmulator.getCommandResult(), expectedResult);
+        actualResult = controller.processRequest("remove", bookTags);
+        assertEquals(actualResult, expectedResult);
     }
 
     @Parameters({"expectedList", "parameters"})
@@ -101,9 +106,10 @@ public class BookWarehouseControllerTest {
     public void testProcessRequestFind(List<Book> expectedList,
                                        String[] parameters) {
         CommandResult expectedResult;
+        CommandResult actualResult;
         expectedResult = new CommandResult(expectedList, null);
-        controller.processRequest("find", parameters);
-        assertEquals(ViewEmulator.getCommandResult(), expectedResult);
+        actualResult = controller.processRequest("find", parameters);
+        assertEquals(actualResult, expectedResult);
     }
 
     @Parameters("parameters")
@@ -112,11 +118,12 @@ public class BookWarehouseControllerTest {
     public void testProcessRequestFindException(String[] parameters) {
         List<Book> addList = new ArrayList<>();
         CommandResult expectedResult;
+        CommandResult actualResult;
         ServiceException exception =
                 new ServiceException("Invalid tag data!");
         expectedResult = new CommandResult(addList, exception);
-        controller.processRequest("find", parameters);
-        assertEquals(ViewEmulator.getCommandResult(), expectedResult);
+        actualResult = controller.processRequest("find", parameters);
+        assertEquals(actualResult, expectedResult);
     }
 
     @Parameters({"expectedList", "parameters"})
@@ -125,9 +132,10 @@ public class BookWarehouseControllerTest {
     public void testProcessRequestSort(List<Book> expectedList,
                                        String[] parameters) {
         CommandResult expectedResult;
+        CommandResult actualResult;
         expectedResult = new CommandResult(expectedList, null);
-        controller.processRequest("sort", parameters);
-        assertEquals(ViewEmulator.getCommandResult(), expectedResult);
+        actualResult = controller.processRequest("sort", parameters);
+        assertEquals(actualResult, expectedResult);
     }
 
     @Parameters("parameters")
@@ -136,21 +144,23 @@ public class BookWarehouseControllerTest {
     public void testProcessRequestSortException(String[] parameters) {
         List<Book> addList = new ArrayList<>();
         CommandResult expectedResult;
+        CommandResult actualResult;
         ServiceException exception =
                 new ServiceException("Invalid tag data!");
         expectedResult = new CommandResult(addList, exception);
-        controller.processRequest("sort", parameters);
-        assertEquals(ViewEmulator.getCommandResult(), expectedResult);
+        actualResult = controller.processRequest("sort", parameters);
+        assertEquals(actualResult, expectedResult);
     }
 
     @Test()
     public void testProcessRequestCommandException() {
         List<Book> addList = new ArrayList<>();
         CommandResult expectedResult;
+        CommandResult actualResult;
         CommandException exception =
                 new CommandException("Invalid command!");
         expectedResult = new CommandResult(addList, exception);
-        controller.processRequest("wrong_command", "no matter what value");
-        assertEquals(ViewEmulator.getCommandResult(), expectedResult);
+        actualResult = controller.processRequest("wrong_command", "no matter what value");
+        assertEquals(actualResult, expectedResult);
     }
 }
